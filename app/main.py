@@ -6,10 +6,22 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
+
+
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
 
 app = FastAPI()
+
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class WindowCreate(BaseModel):
     name: str
@@ -42,12 +54,6 @@ async def create_folder(folder: FolderCreate, db: Session = Depends(database.get
 
 app.include_router(router)
 
-# Dependency
-def get_db():
-    db = database.SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
