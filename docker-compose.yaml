@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    command: uvicorn app.__init__:app --host 0.0.0.0 --reload
+    volumes:
+      - ./app:/code/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://user:password@db/file_tabs_db
+    depends_on:
+      - db
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: file_tabs_db
+    ports:
+      - "5432:5432"

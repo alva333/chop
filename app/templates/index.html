@@ -1,0 +1,357 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>File Tabs Interface</title>
+<style>
+    body {
+        background-color: #008080;
+        font-family: Arial, sans-serif;
+        position: relative;
+    }
+    
+    p {
+        margin: 0;
+    }
+    
+    .folder {
+        display: flex;
+        flex-direction: column;
+        width: 128px;
+        height: 128px;
+        /* margin: 0 auto; */
+        justify-content: center;
+        align-items: center;
+        margin: 20px;
+        transition: all 0.2s ease;
+    
+    }
+    
+    .folder:hover {
+        transform: scale(1.02);
+    }
+    
+    .folder_icon {
+        width: 80%;
+        height: 80%;
+        position: relative;
+    }
+    
+    .folder_tab{
+        top: 0;
+        left: 0;
+        position: absolute;
+        width: 55%;
+        height: 70%;
+        border-top-left-radius: 10%;
+        border-top-right-radius: 10%;
+        border-end-start-radius: 100%;
+        border-end-end-radius: 500%;
+        border-start-start-radius: 200%;
+        border-start-end-radius: 600%;
+        border-left: #000000 solid 1px;
+        border-top: #000000 solid 1px;
+        border-right: none;
+    
+        background-color: burlywood;
+        border-bottom: #000000 solid 1px;
+    
+        z-index: 0;
+        transition: all 0.2s ease;
+        
+    }
+    
+    .folder:hover .folder_tab {
+        top: 0;
+        left: 0;
+        position: absolute;
+        width: 55%;
+        height: 70%;
+        border-top-left-radius: 35%;
+        border-top-right-radius: 10%;
+        border-end-start-radius: 200%;
+        border-end-end-radius: 500%;
+        border-start-start-radius: 200%;
+        border-start-end-radius: 600%;
+        border-left: #000000 solid 1px;
+        border-top: #000000 solid 1px;
+        border-right: none;
+    
+        background-color: burlywood;
+        border-bottom: #000000 solid 1px;
+    
+        z-index: 0;
+    
+        
+    
+        
+    }
+    
+    .folder_front {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        border: #ffffff solid 1px;
+        width: 105%;
+        height: 80%;
+        /* border-radius: 20%; */
+        border-end-end-radius: 10%;
+        border-end-start-radius: 5%;
+        border-start-start-radius: 10%;
+        border-start-end-radius: 5%;
+        background-color: blanchedalmond;
+        z-index: 2; /* Ensure it's above .folder_back */
+    
+        border: #000000 solid 1px;
+        transition: all 0.1s ease;
+    }
+    
+    .folder:hover .folder_front {
+        position: absolute;
+        bottom: -3%;
+        left: 3%;
+        border: #ffffff solid 1px;
+        width: 105%;
+        height: 80%;
+        /* border-radius: 20%; */
+        border-end-end-radius: 25%;
+        border-end-start-radius: 15%;
+        border-start-start-radius: 100%;
+        border-start-end-radius: 25%;
+        background-color: blanchedalmond;
+        z-index: 2; /* Ensure it's above .folder_back */
+        box-shadow: 10px 10px 15px 2px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+        background: rgb(222,200,145);
+    background: linear-gradient(135deg, rgba(222,200,145,1) 0%, rgba(198,146,85,1) 8%, rgba(255,235,205,1) 37%, rgba(255,235,205,1) 100%);
+        border: #000000 solid 1px;
+    }
+    
+    .folder_back {
+        position: absolute;
+        bottom: 0;
+        
+        width: 100%;
+        height: 90%;
+        border-radius: 15%;
+        border-top-left-radius: 0%;
+        background-color: burlywood;
+        z-index: 1; /* Lowest in the stack */
+        border-left: #000000 solid 1px;
+        border-right: #000000 solid 1px;
+        border: #000000 solid 1px;
+        /* border-top: #000000 solid 1px; */
+        border-top: none;
+    }
+    
+    .folder_back::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 45%;
+        width: 60%;
+        height: 100%;
+        border-radius: 10%;
+        border-top-left-radius: 0%;
+        background-color: burlywood;
+        z-index: 1; /* Lowest in the stack */
+        /* border-left: #000000 solid 1px; */
+        border-right: #000000 solid 1px;
+        border-top: #000000 solid 1px;
+    }
+    
+    .folder_sub {
+        height: 10px;
+        color: #ffffff;
+        margin: 5px;
+    }
+    
+    
+    
+    .container {
+        background-color: #c0c0c0;
+        border: 1px solid #808080;
+        padding: 10px;
+        width: 400px;
+        margin: 0 auto;
+    }
+    
+    .title-bar {
+        background-color: #008080;
+        color: #ffffff;
+        padding: 5px;
+        text-align: center;
+    }
+    
+    .content {
+        background-color: #ffffff;
+        padding: 10px;
+    }
+    
+    .button {
+        background-color: #c0c0c0;
+        border: 1px solid #808080;
+        color: #000000;
+        padding: 5px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        margin: 5px;
+        cursor: pointer;
+    }
+    
+    .button:hover {
+        background-color: #808080;
+        color: #ffffff;
+    }
+    
+    
+    .window {
+        display: flex;
+        flex-direction: column;
+        width: 128px;
+        height: 128px;
+        /* margin: 0 auto; */
+        justify-content: center;
+        align-items: center;
+        margin: 20px;    
+        transition: all 0.2s ease;
+    
+    }
+    
+    .window:hover {
+        transform: scale(1.1);
+    }
+    
+    .window_icon {
+        width: 80%;
+        height: 80%;
+        position: relative;
+    
+    }
+    
+    .window_back {
+        box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #808080;
+        border: 1px solid #000000;
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;   
+        padding: 2%.
+    }
+    
+    .window_bar {
+        /* clip-path: polygon(1px 1px, 100% 1px, 100% 100%, 0% 100%, 10% 50%); */
+        width: 90%;
+        height: 20%;
+        border-radius: 50px;
+        /* clip-path: ellipse(50% 80% at 50% 50%); */
+        background-color: #ec58ff;
+        border: 1px solid #000000;
+        box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between.
+    }
+    
+    .window_bar_button {
+        box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        content: 'x';
+        margin-right: 5%;
+        right: 10%;
+        top: 10%;
+        border: #000000     solid 1px;
+        
+        background-color: #ff0000.
+    }
+    
+    .window_bar p {
+        margin: 0;
+        padding: 4px;
+        font-size: 12px.
+        
+        
+    }
+    
+    .window_content {
+    
+        box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+        background-color: #c0c0c0;
+        /* border-radius: 30%; */
+        width: 91%;
+        height: 70%;
+        border-radius: 12px;
+        border: #000000 solid 1px;
+        transition: transform 1s, background-color 0.4s.
+    }
+    
+    .window_content:hover {
+        background-color: #ffffff;
+        transform: scale(1.02).
+    }
+    
+    
+    .start_bar {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 100%;
+        height: 128px;
+        background-color: #c0c0c0;
+        border: 1px solid #000000;
+        border-radius: 20px.
+    }
+</style>
+</head>
+<body>
+
+  <div class="folder">
+    <!-- Folder icon with text -->
+    <div class="folder_icon" href="./chat.html" onclick="location.href='./chat.html'">
+        <div class="folder_back"></div>
+        <div class="folder_tab"></div>
+        <div class="folder_front"></div>
+    </div>
+    <p class="folder_sub">Folder 1</p>
+  </div>
+
+
+  <div class="window">
+    <div class="window_icon">
+        <div class="window_back">
+            <div class="window_bar">
+                <p class="title_bar">Chat</p>
+                <div class="window_bar_button">x</div>
+            </div>
+            <div class="window_content"></div>
+        </div>
+    </div>
+    <p class="folder_sub">Folder 1</p>
+  </div>
+
+  <div class="start_bar">
+    <div class="start_button"></div>
+    <div class="search_bar"></div>
+    <div class="user_button"></div>
+
+    </div>
+  </div>
+</body>
+</html>
